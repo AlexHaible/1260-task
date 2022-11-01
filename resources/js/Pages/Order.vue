@@ -14,6 +14,30 @@
                     <Input name="name" type="text" v-model="form.name" />
                 </FormGroup>
 
+                <FormGroup label="E-mail" :error="form.errors.email">
+                    <Input name="email" type="email" v-model="form.email" />
+                </FormGroup>
+
+                <FormGroup label="Vaffel eller bæger">
+                    <RadioGroup :options="options" v-model="form.container" :error="form.errors.container" />
+                </FormGroup>
+
+                <FormGroup label="Antal kugler" :error="form.errors.amount">
+                    <Select name="amount" v-model="form.amount">
+                        <option value="notSelected" disabled selected>Vælg antal</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </Select>
+                </FormGroup>
+
+                <FormGroup label="Ønskede varianter" :error="form.errors.details">
+                    <TextArea name="details" v-model="form.details" />
+                </FormGroup>
+
                 <div class="mt-8">
                     <Button type="submit">
                         Bestil nu
@@ -29,6 +53,9 @@
 <script>
 import DefaultLayout from "../Layouts/DefaultLayout";
 import Button from "../Components/Button";
+import RadioGroup from "../Components/RadioGroup";
+import Select from "../Components/Select";
+import TextArea from "../Components/TextArea";
 import FormGroup from "../Components/FormGroup";
 import Input from "../Components/Input";
 
@@ -37,17 +64,25 @@ export default {
         Input,
         FormGroup,
         Button,
+        Select,
+        TextArea,
+        RadioGroup,
         DefaultLayout
     },
-    data() {
+    data () {
         return {
             form: this.$inertia.form({
                 name: null,
+                email: null,
+                container: null,
+                amount: null,
+                details: null,
             }),
+            options: ['Vaffel', 'Bæger']
         };
     },
     methods: {
-        submit() {
+        submit () {
             this.form.post('/order');
         },
     }
